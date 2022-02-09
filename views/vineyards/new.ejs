@@ -1,0 +1,74 @@
+<% layout('layouts/boilerplate')%>
+
+<div class="row">
+    <h1 class="text-center">New Location</h1>
+    <div class="col-6 offset-3">
+        <form action="/vineyards" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label class="form-label mt-3" for="title">Location Name</label>
+                <input class="form-control" type="text" id="title" name="vineyard[title]" required>
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="location">Location Address</label>
+                <input class="form-control" type="text" id="location" name="vineyard[location]" required>
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="vineyard[description]" required></textarea>
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+
+            <input type="file" name="image" multiple>
+
+            <div class="row">
+            <div class="mt-3 mb-3 col-6">
+                <label for="category" class="form-label">Category</label>
+                <select name="vineyard[category]" id="category" class="form-select" required>
+                <option value="Vineyard">Vineyard</option>
+                <option value="Vineyard & Winery">Vineyard & Winery</option>
+                <option value="Urban Vineyard">Urban Vineyard</option>
+                <option value="Destination Winery">Destination Winery</option>
+                <option value="Farm Winery">Farm Winery</option>
+                <option value="Urban Winery">Urban Winery</option>
+                <option value="Venue Winery">Venue Winery</option>
+                <option value="Wine Bar">Wine Bar</option>
+                </select>
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+
+            <div class="mb-3 mt-3 col-6">
+            <label for="style" class="form-label">Style</label> 
+                <select name="vineyard[style]" id="style" class="form-select" required>
+                <option value="Open Door">Open Door</option>
+                <option value="Educational">Educational</option>
+                <option value="Wine/Vineyard Tour">Wine/Vineyard Tour</option>
+                <option value="Taste Testing">Taste Testing</option>
+                <option value="Events & Activities">Events & Activities</option>
+            </select>
+            <div class="valid-feedback">Looks good!</div>
+            </div>
+        </div>
+            <div class="col-md-4 mb-5">
+                <label for="price" class="form-label">Price</label>
+                <select name="vineyard[price]" id="price" class="form-select" required>
+                <option value="$">$</option>
+                <option value="$$">$$</option>
+                <option value="$$$">$$$</option>
+                <option value="$$$$">$$$$</option>
+                <option value="$$$$$">$$$$$</option>
+                </select>
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+
+            <button class="btn btn-dark mb-5">Add Location</button>
+
+        </form>
+
+    </div>
+</div>
+

@@ -1,0 +1,98 @@
+
+<% layout('layouts/boilerplate')%>
+
+    <div class="row">
+        <h1 class="text-center">Edit Location</h1>
+        <div class="col-6 offset-3">
+            <form action="/vineyards/<%=vineyard._id%>?_method=PUT" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+    
+                <div class="mb-3">
+                    <label class="form-label" for="title">Location Name</label>
+                    <input class="form-control" type="text" id="title" name="vineyard[title]" value="<%=vineyard.title %>" required>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+    
+                <div class="mb-3">
+                    <label class="form-label" for="location">Location Address</label>
+                    <input class="form-control" type="text" id="location" name="vineyard[location]" value="<%=vineyard.location %>" required>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+    
+                <div class="mb-3">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea class="form-control" type="text" id="description" name="vineyard[description]" required><%= vineyard.description%></textarea>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+    
+                <div class="mb-3">
+                    <label class="form-label" for="image">Image Upload</label>
+                    <input class="form-control" type="file" id="image" name="image" multiple>
+                </div>
+    
+                <div class="row">
+                <div class="mb-3 col-6">
+                    <label for="category" class="form-label">Category</label>
+                    <select name="vineyard[category]" id="category" class="form-select" value="<%=vineyard.category %>" required>
+                    <option value="Vineyard">Vineyard</option>
+                    <option value="Vineyard & Winery">Vineyard & Winery</option>
+                    <option value="Urban Vineyard">Urban Vineyard</option>
+                    <option value="Destination Winery">Destination Winery</option>
+                    <option value="Farm Winery">Farm Winery</option>
+                    <option value="Urban Winery">Urban Winery</option>
+                    <option value="Venue Winery">Venue Winery</option>
+                    <option value="Wine Bar">Wine Bar</option>
+                    </select>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+    
+                <div class="mb-3 col-6">
+                <label for="style" class="form-label">Style</label> 
+                    <select name="vineyard[style]" id="style" class="form-select" value="<%=vineyard.style %>" required>
+                    <option value="Open Door">Open Door</option>
+                    <option value="Educational">Educational</option>
+                    <option value="Wine/Vineyard Tour">Wine/Vineyard Tour</option>
+                    <option value="Taste Testing">Taste Testing</option>
+                    <option value="Events & Activities">Events & Activities</option>
+                </select>
+                <div class="valid-feedback">Looks good!</div>
+                </div>
+            </div>
+    
+                <div class="col-md-4 mb-5">
+                    <label for="price" class="form-label">Price</label>
+                    <select name="vineyard[price]" id="price" class="form-select" value="<%=vineyard.price %>" required>
+                    <option value="$">$</option>
+                    <option value="$$">$$</option>
+                    <option value="$$$">$$$</option>
+                    <option value="$$$$">$$$$</option>
+                    <option value="$$$$$">$$$$$</option>
+                    </select>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+                
+
+                <h5> Delete Images </h5>
+                <div class="row row-cols-1 row-cols-md-4 g-4 mb-5">
+                            <% vineyard.images.forEach((image, i) => { %>
+                                <div class="col">
+                                    <div class="card">
+                                        <img class="card-img" src="<%= image.url %>" alt="">
+                                        <div class="card-img-overlay text-end pt-1 pe-2">
+                                            <label class="visually-hidden" for="image-<%= i %>">Delete Image</label>
+                                            <input class="form-check-input" type="checkbox" name="deleteImages[]" value="<%= image.filename %>"  id="image-<%= i %>">
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+
+                <button class="btn btn-dark mb-3">Update Information</button>
+    
+        
+                
+            </form>
+            <a class="btn btn-dark mb-5" href="/vineyards/<%= vineyard._id%>">Back to Location's Page</a>
+        </div>
+    </div>
+    
+    

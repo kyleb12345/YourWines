@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YourWines&#127815;</title>
+    
+    <link rel="stylesheet" href="/stylesheets/home.css">
+
+
+
+</head>
+<body>
+
+    <section>
+
+    <header>
+        <div class="cloud translate" data-speed="0.1"></div>
+    <div class="container">
+    
+        <h2 class="big-title" translate data-speed="">Need a drink?</h2>
+        
+        <img src="/stylesheets/vineyard1.png" class="translate layer2" data-speed=".327" alt="" />
+        
+    
+</header>
+
+<div class="content">
+
+<div id="space-between">
+
+</div>
+
+<div id="middle">
+    
+    <div class="box1"><a class="links" href="/login"><strong>Login</strong></a></div>
+    <div class="box2"><a class="link" href="/vineyards">Click here to find a winery or vineyard near you</a></div>
+    <div class="box3"><a class="links" href="register"><strong>Register</strong></a></div>
+</div>
+
+
+</div>
+    
+</body>
+
+
+<script>
+
+    const translate = document.querySelectorAll(".translate");
+const big_title = document.querySelector(".big-title");
+const header = document.querySelector("header");
+const section = document.querySelector("section");
+let header_height = header.offsetHeight;
+let section_height = section.offsetHeight;
+
+window.addEventListener('scroll', () => {
+    let scroll = window.pageYOffset;
+    let sectionY = section.getBoundingClientRect();
+    
+    translate.forEach(element => {
+        let speed = element.dataset.speed;
+        element.style.transform = `translateY(${scroll * speed}px)`;
+    });
+
+    big_title.style.opacity = - scroll / (header_height / 2) + 1;
+    
+});
+
+</script>
+
+</html>

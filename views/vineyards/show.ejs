@@ -1,0 +1,193 @@
+<% layout('layouts/boilerplate')%>
+<link rel="stylesheet" href="/stylesheets/stars.css">
+
+
+
+<div class="row mt-3">
+  
+    <div class="col-6">
+      <h4 style="color: #198754;"><%= vineyard.title %></h4>
+      <div id="vineyardCarousel" class="carousel slide" data-bs-interval="false">
+        <div class="carousel-inner">
+            <% vineyard.images.forEach((img, i) => {  %>
+            <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
+                <img style="object-fit:contain; object-position: center; overflow:none; height: 50vh; background-color: rgba(0,0,0,0);" 
+                src="<%= img.url%>" class="d-block w-100" alt="">
+            </div>
+            <% }) %>
+
+        </div>
+        <% if(vineyard.images.length > 1) { %>
+        <a class="carousel-control-prev" href="#vineyardCarousel" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: rgba(0,0,0,0.2);"></span>
+            <span class="sr-only"></span>
+        </a>
+        <a class="carousel-control-next" href="#vineyardCarousel" role="button" data-bs-slide="next" >
+            <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: rgba(0,0,0,0.2);"></span>
+            <span class="sr-only"></span>
+        </a>
+      <% } %>
+    </div>
+
+
+        <div class="card mb-5">
+        
+            <div class="card-body">
+              <h5 class="card-title" style="color: #198754;"><%= vineyard.title %></h5>
+              <p class="card-text"><%= vineyard.description %></p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><%= vineyard.location %></li>
+              <li class="list-group-item"><%= vineyard.category %> | <%= vineyard.style %> | <%= vineyard.price %></li>
+              
+            </ul>
+            <% if(currentUser && vineyard.author.equals(currentUser._id)) { %>
+            <div class="card-body">
+                <a class="card-link btn btn-success" href="/vineyards/<%=vineyard._id%>/edit">Edit Location</a>
+                <form class="d-inline" action="/vineyards/<%=vineyard._id%>?_method=DELETE" method="POST">
+                  <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+            </div>
+            <% } %>
+          </div>
+          </div>
+
+          
+          <div class="col-6 scroll" style="height:90vh; overflow: hidden; overflow-y:scroll;">
+            <h4 style="color: #198754;">Reviews</h4>
+            <% for(let review of vineyard.reviews) { %>
+              <div class="card mb-3" >
+                <div class="card-body">
+                  <div class="row">
+                  <h6 class="card-title stars-wrapper mb-0">Rating: <%= review.rating  %> 
+                    <p style="color:white;">-</p> 
+                    <% for( let i = 0; i < review?.rating; i++ ) { %>
+                    <div class='star-filled'>&#9733;</div>
+                <% } %>
+                <% for( let i = 0; i < 5 - review?.rating; i++ ) { %>
+                    <div class='star-empty'>&#9734;</div>
+                <% } %></h6>  
+                  
+                <p class="card-text mt-0 font"> <strong> <%= review.category %> | <%= review.style %> | <%= review.price %></strong></p>
+
+                </div>
+                <h6 class="card-subtitle mt-1 mb-3 text-muted font"><%= review.author.username%></h6>
+                
+                <p class="card-text font"><%= review.body %></p>
+                <% if(currentUser && review.author.equals(currentUser._id)) { %>
+                <form action="/vineyards/<%=vineyard._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                  <button class="btn btn-sm btn-danger">Delete</button>
+                  <% } %>
+                </form>
+                </div>
+              </div>
+              <% } %>
+            </div>
+          
+          
+          </div>
+
+        
+          
+          
+          
+      </div>
+
+      
+      <div class="row mx-auto col-8 mb-5 mt-3">
+        <h3>Map Location</h3>
+        <div id="map" style="width: 60vw; height: 40vh;"></div>
+        </div>
+    
+      <div class="mx-auto col-8 mb-3">
+        
+      <h3 class="mb-3">Leave a Review</h3>
+
+      <div class="accordion mb-5" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Must be logged in to leave a review.
+            </button>
+            <% if(currentUser) { %>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <form action="/vineyards/<%=vineyard._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate enctype="multipart/form-data">
+                
+                <div class="row">
+
+                <div class="mb-3 col-8">
+                  <label for="rating">Rating: 1 - 5</label>
+                  <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
+                </div>
+
+                <div class="col-md-4 mb-3 col-4">
+                  <label for="price" class="form-label">Price</label>
+                  <select name="review[price]" id="price" class="form-select" required>
+                  <option value="$">$</option>
+                  <option value="$$">$$</option>
+                  <option value="$$$">$$$</option>
+                  <option value="$$$$">$$$$</option>
+                  <option value="$$$$$">$$$$$</option>
+                  </select>
+                  <div class="valid-feedback">Looks good!</div>
+              </div>
+            </div>
+                <div class="mb-4">
+                  <label class="form-label" for="body">Review</label>
+                  <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+                  <div class="valid-feedback">Looks good!</div>
+                </div>
+
+              <div class="row">
+
+                <div class="mb-3 col-6">
+                  <label for="category" class="form-label">Category</label>
+                  <select name="review[category]" id="category" class="form-select" required>
+                  <option value="Vineyard">Vineyard</option>
+                  <option value="Vineyard & Winery">Vineyard & Winery</option>
+                  <option value="Urban Vineyard">Urban Vineyard</option>
+                  <option value="Destination Winery">Destination Winery</option>
+                  <option value="Farm Winery">Farm Winery</option>
+                  <option value="Urban Winery">Urban Winery</option>
+                  <option value="Venue Winery">Venue Winery</option>
+                  <option value="Wine Bar">Wine Bar</option>
+                  </select>
+                  <div class="valid-feedback">Looks good!</div>
+              </div>
+      
+              <div class="mb-4 col-6">
+              <label for="style" class="form-label">Style</label> 
+                  <select name="review[style]" id="style" class="form-select" required>
+                  <option value="Open Door">Open Door</option>
+                  <option value="Educational">Educational</option>
+                  <option value="Wine/Vineyard Tour">Wine/Vineyard Tour</option>
+                  <option value="Taste Testing">Taste Testing</option>
+                  <option value="Events & Activities">Events & Activities</option>
+              </select>
+              <div class="valid-feedback">Looks good!</div>
+              </div>
+
+              <input class="mb-3" type="file" name="image" multiple>
+            </div>       
+            
+                <button class="btn btn-dark mt-3 col-6">Submit</button>
+              </form>
+            
+            </div>
+          
+          </div>
+        </div>
+      </div>
+  
+      <% } %>
+    
+    </div>
+
+    <script>
+      const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+      const vineyard = <%-JSON.stringify(vineyard)%>
+  </script>
+
+<script src="/javascripts/showPageMap.js"></script>
