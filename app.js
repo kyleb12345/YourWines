@@ -25,7 +25,7 @@ const vineyardRoutes = require('./routes/vineyards');
 const reviewRoutes = require('./routes/reviews');
 
 
-mongoose.connect('mongodb://localhost:27017/vineyard-camp');
+mongoose.connect('mongodb://localhost:27017/data-base-name');
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -47,7 +47,7 @@ app.use(mongoSanitize());
 
 const sessionConfig = {
     name: 'session',
-    secret: 'thisshouldbeabettersecret!',
+    secret: '',
     resave: false,
     saveUninitialized: true,
     cookie: {
